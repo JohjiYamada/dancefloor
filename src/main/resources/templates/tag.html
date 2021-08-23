@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>View WoodenTag</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        <h1>View Contact</h1>
+        <a th:href="@{/tags}">Back to WoodenTag List</a>
+        <br/><br/>
+        <div th:if="${tag}">
+            <table border="0">
+                <tr>
+                    <td>ID</td>
+                    <td>:</td>
+                    <td th:utext="${tag.id}">...</td>          
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td>:</td>
+                    <td th:utext="${tag.title}">...</td>             
+                </tr>
+                <tr>
+                    <td>message</td>
+                    <td>:</td>
+                    <td th:utext="${tag.message}">...</td>              
+                </tr>
+                <tr>
+                    <td>landscape</td>
+                    <td>:</td>
+                    <td th:text="${tag.landscape} ? '横書き' : '縦書き'" >...</td>
+                    
+<!--                     <td th:utext="${tag.landscape}">...</td> -->
+                </tr>
+                <tr>
+                    <td>senderType</td>
+                    <td>:</td>
+                    <td th:text="${tag.senderType} ? 'あり' : 'なし'" >...</td>
+
+<!--                     <td th:utext="${tag.senderType}">...</td> -->
+                </tr>
+                <tr>
+                    <td>formType</td>
+                    <td>:</td>
+                    <td th:utext="${tag.fromType.dispName}">...</td>
+<!--                     <td th:utext="${tag.fromType}">...</td> -->
+                </tr>
+            </table>
+            <br/><br/>
+            <div th:if="not ${allowDelete}">
+                <a th:href="@{/tags/{tagId}/edit(tagId=${tag.id})}">Edit</a> |
+                <a th:href="@{/tags/{tagId}/delete(tagId=${tag.id})}">Delete</a>
+            </div>
+            <form th:if="${allowDelete}" th:action="@{/tags/{tagId}/delete(tagId=${tag.id})}" method="POST">
+                Delete this WoodenTag? <input type="submit" th:value="Yes" />
+            </form>
+        </div>
+        <div th:if="${errorMessage}" th:utext="${errorMessage}" class="error" />        
+    </body>
+</html>

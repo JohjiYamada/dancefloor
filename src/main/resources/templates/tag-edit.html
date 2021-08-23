@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title th:text="${add} ? 'Create a WoodenTag' : 'Edit a WoodenTag'" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        <h1 th:text="${add} ? 'Create a WoodenTag' : 'Edit a WoodenTag'" />
+        <a th:href="@{/tags}">Back to WoodenTag List</a>
+        <br/><br/>
+        <form th:action="${add} ? @{/tags/add} : @{/tags/{tagId}/edit(tagId=${tag.id})}"
+              th:object="${tag}" method="POST">
+            <table border="0">
+                <tr th:if="${tag.id}">
+                    <td>ID</td>
+                    <td>:</td>
+                    <td th:utext="${tag.id}">...</td>             
+                </tr>
+                <tr>
+                    <td>title</td>
+                    <td>:</td>
+                    <td>
+                        <!-- <input type="text" th:field="*{title}" /> -->
+                        <select th:field="*{title}">
+                            <option value="祝">祝</option>
+                            <option value="御祝">御祝</option>
+                            <option value="祝開店">祝開店</option>
+                            <option value="祝オープン">祝オープン</option>
+                            <option value="祝リニューアル">祝リニューアル</option>
+                            <option value="祝上場">祝上場</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Message</td>
+                    <td>:</td>
+                    <td><input type="text" th:field="*{message}" /></td>              
+                </tr>
+                <tr>
+                    <td>landscape</td>
+                    <td>:</td>
+                    <td>
+                        <select th:field="*{landscape}">
+                            <option value="FALSE">縦書き</option>
+                            <option value="TRUE">横書き</option>
+                        </select>
+                        <!-- <input type="text" th:field="*{landscape}" /> -->
+                    </td>              
+                </tr>
+                <tr>
+                    <td>senderType</td>
+                    <td>:</td>
+                    <td>
+                        <!-- <input type="text" th:field="*{senderType}" size="50" /> -->
+                        <select th:field="*{senderType}">
+                            <option value="FALSE">なし</option>
+                            <option value="TRUE">あり</option>
+                        </select>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>fromType</td>
+                    <td>:</td>
+                    <td>
+                        <select class="form-control" th:field="*{fromType}">
+                            <option th:each="item : ${fromTypeEnum}" th:value="${item}" th:text="${item.dispName}"></option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            
+            
+            <table>
+                <tr th:if="${tag.companyInfoList[0].id}">
+                    <td>Company ID1</td>
+                    <td>:</td>
+                    <td th:utext="${tag.companyInfoList[0].id}">...</td>             
+                </tr>
+                <tr>
+                    <td>CompanySuffix1</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" th:field="*{companyInfoList[0].companySuffix}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>CompanyPrefix1</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" th:field="*{companyInfoList[0].companyPrefix}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>CompanyName1</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" th:field="*{companyInfoList[0].companyName}" />
+<!--                         <input type="hidden" th:field="*{companyInfo[0].woodenTag}" th:value="${tag.id}" /> -->
+                    </td>
+                </tr>
+
+
+                <tr th:if="${tag.companyInfoList[1].id}">
+                    <td>Company ID2</td>
+                    <td>:</td>
+                    <td th:utext="${tag.companyInfoList[1].id}">...</td>
+                </tr>
+                <tr>
+                    <td>CompanySuffix2</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" th:field="*{companyInfoList[1].companySuffix}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>CompanyPrefix2</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" th:field="*{companyInfoList[1].companyPrefix}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>CompanyName2</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" th:field="*{companyInfoList[1].companyName}" />
+                    </td>
+                </tr>
+
+
+                <tr th:if="${tag.companyInfoList[2].id}">
+                    <td>Company ID3</td>
+                    <td>:</td>
+                    <td th:utext="${tag.companyInfoList[2].id}">...</td>
+                </tr>
+                <tr>
+                    <td>CompanySuffix3</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" th:field="*{companyInfoList[2].companySuffix}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>CompanyPrefix3</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" th:field="*{companyInfoList[2].companyPrefix}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>CompanyName3</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" th:field="*{companyInfoList[2].companyName}" />
+                    </td>
+                </tr>
+                
+            
+            </table>
+            <input type="submit" th:value="${add} ? 'Create' : 'Update'" />
+        </form>
+ 
+        <br/>
+        <!-- Check if errorMessage is not null and not empty -->       
+        <div th:if="${errorMessage}" th:utext="${errorMessage}" class="error" />       
+    </body>
+</html>
